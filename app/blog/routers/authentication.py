@@ -5,6 +5,7 @@ from ..models import User
 from sqlalchemy.orm import Session
 from ..hashing import Hash
 from ..JWT_token import create_access_token
+from fastapi.security import OAuth2PasswordRequestForm
 
 router = APIRouter(
     tags=['Authentication']
@@ -12,7 +13,7 @@ router = APIRouter(
 
 
 @router.post('/login')
-def login(request: ShowLogin, db: Session = Depends(get_db)):
+def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter((request.username == User.username) | (request.username == User.email)).first()
     if not user:
         raise HTTPException(detail=f"Invalid account", status_code=status.HTTP_404_NOT_FOUND)
