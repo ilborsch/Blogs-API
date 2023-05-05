@@ -13,13 +13,13 @@ class User(BaseConfig):
     password: str
 
 
-class Blog(BaseConfig):
+class BaseBlog(BaseConfig):
     title: str
     body: str
-    creator_id: int
 
-    class Config:
-        orm_mode = True
+
+class Blog(BaseBlog):
+    creator_id: int
 
 
 class ShowCreator(BaseConfig):
@@ -31,9 +31,7 @@ class ShowUser(ShowCreator):
     blogs: List[Blog]
 
 
-class ShowBlog(BaseConfig):
-    title: str
-    body: str
+class ShowBlog(BaseBlog):
     creator: ShowCreator
 
 
