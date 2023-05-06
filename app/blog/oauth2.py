@@ -3,6 +3,8 @@ from fastapi.security import OAuth2PasswordBearer
 from .JWT_token import verify_token
 from .database import get_db
 from .models import User
+
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 
 
