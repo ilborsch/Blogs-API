@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from fastapi.security import OAuth2PasswordRequestForm
+
 
 class BaseConfig(BaseModel):
     class Config:
@@ -54,3 +54,4 @@ class UserRegistrationSchema(BaseConfig):
     email: str
     password: str
     repeated_password: str
+

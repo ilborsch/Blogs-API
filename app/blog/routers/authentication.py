@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Form
 from ..database import get_db
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 from ..repository import authentication
 from ..schemas import UserRegistrationSchema
+from pyfa_converter import PyFaDepends
 
 
 router = APIRouter(
@@ -17,5 +18,7 @@ def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(
 
 
 @router.post('/register')
-def register(request: UserRegistrationSchema = Depends(), db: Session = Depends(get_db)):
+def register(request: UserRegistrationSchema,
+             db: Session = Depends(get_db)):
     return authentication.register(request, db)
+

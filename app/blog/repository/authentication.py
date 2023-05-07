@@ -7,6 +7,12 @@ from fastapi.security import OAuth2PasswordRequestForm
 from ..schemas import UserRegistrationSchema
 
 
+def validate_user(request: UserRegistrationSchema, db: Session):
+    is_valid_username = db.query(User).filter(User.username == request.username).first() is None
+    is_valid_email = db.query(User).filter(User.email == request.email).first() is None
+    return is_valid_username and is_valid_email
+
+
 def login(request: OAuth2PasswordRequestForm, db: Session):
     user = db.query(User).filter((request.username == User.username) | (request.username == User.email)).first()
     if not user:
@@ -20,8 +26,7 @@ def login(request: OAuth2PasswordRequestForm, db: Session):
 
 
 def register(request: UserRegistrationSchema, db: Session):
-    existent_user = db.query(User).filter((User.email == request.email) | (User.username == request.username)).first()
-    if existent_user is not None:
+    if not validate_user(request, db):
         raise HTTPException(detail=f"The user already exists.", status_code=status.HTTP_403_FORBIDDEN)
 
     if request.password != request.repeated_password:
