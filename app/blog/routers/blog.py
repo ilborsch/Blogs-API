@@ -16,7 +16,6 @@ router = APIRouter(
 @router.get('/', status_code=status.HTTP_200_OK, response_model=list[BlogSchema])
 @cache(expire=60)
 def get_all_blogs(db: Session = Depends(get_db), user: ShowUser = Depends(get_current_user)):
-    sleep(3)
     return blog.get_all(db, user)
 
 

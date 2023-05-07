@@ -3,7 +3,8 @@ from sqlalchemy import insert, select
 from app.blog.models import User
 from .conftest import client, sessionmaker
 
-# create user before
+# register user before
+
 def test_login():
     response = client.post('/login', json={
                 "username": "test_client",
