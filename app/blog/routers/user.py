@@ -1,9 +1,11 @@
 from fastapi import Depends, status
-from ..schemas import User as UserSchema, ShowUser
+from ..schemas import User as UserSchema, ShowUser, BaseBlog
 from ..database import get_db
 from sqlalchemy.orm import Session
 from fastapi import APIRouter
 from ..repository import user
+from app.blog.models import User
+from app.blog.oauth2 import get_current_user
 from fastapi_cache.decorator import cache
 
 router = APIRouter(
@@ -12,12 +14,13 @@ router = APIRouter(
 )
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED, response_model=ShowUser)
+@router.post('/', status_code=status.HTTP_201_CREATED)
 def create_user(request: UserSchema, db: Session = Depends(get_db)):
     return user.create(request, db)
 
 
 @router.get('/{id}/', status_code=status.HTTP_200_OK, response_model=ShowUser)
-@cache(expire=60)
+# @cache(expire=60)
 def get_user_by_id(id: int, db: Session = Depends(get_db)):
     return user.get_by_id(id, db)
+

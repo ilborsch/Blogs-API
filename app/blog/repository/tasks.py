@@ -11,7 +11,7 @@ def validate_email(email: str):
     if not email:
         return False
     from re import search
-    regex = r'^[a-z0-9]+[\._]?[ a-z0-9]+[@]\w+[. ]\w{2,3}$'
+    regex = r'^[\w\-\.]+@([\w-]+\.)+[\w-]{2,4}$'
     return search(regex, email) is not None
 
 

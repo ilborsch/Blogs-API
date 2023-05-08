@@ -14,13 +14,13 @@ router = APIRouter(
 
 
 @router.get('/', status_code=status.HTTP_200_OK, response_model=list[BlogSchema])
-@cache(expire=60)
+# @cache(expire=60)
 def get_all_blogs(db: Session = Depends(get_db), user: ShowUser = Depends(get_current_user)):
     return blog.get_all(db, user)
 
 
 @router.get('/{id}/', status_code=status.HTTP_200_OK, response_model=ShowBlog)
-@cache(expire=60)
+# @cache(expire=60)
 def get_blog_by_id(id: int, db: Session = Depends(get_db), user: ShowUser = Depends(get_current_user)):
     return blog.get_by_id(id, db, user)
 
@@ -36,7 +36,7 @@ def delete_blog(id: int, db: Session = Depends(get_db), user: ShowUser = Depends
 
 
 @router.put('/{id}/', status_code=status.HTTP_202_ACCEPTED)
-def update_blog(id: int, request: BlogSchema, db: Session = Depends(get_db), user: ShowUser = Depends(get_current_user)):
+def update_blog(id: int, request: BaseBlog, db: Session = Depends(get_db), user: ShowUser = Depends(get_current_user)):
     return blog.update(id, request, db, user)
 
 

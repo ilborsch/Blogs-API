@@ -2,7 +2,6 @@ import pytest
 from app.blog.models import User
 from app.blog.repository import authentication
 from .conftest import client, TEST_USER, get_db
-from fastapi import HTTPException
 from app.blog.models import User
 from app.blog.schemas import UserRegistrationSchema
 
@@ -62,55 +61,46 @@ def test_validate_user():
     ), db=next(get_db())) is False
 
 
-# TO DO
-# DOESNT WORK BLYAT
+def test_valid_username_login_():
+    response = client.post("/login", data={
+        "username": TEST_USER["username"],
+        "password": TEST_USER["password"]
+    })
+
+    json = response.json()
+    assert json["status"] == "DONE"
+    assert response.status_code == 200
 
 
-# def test_valid_username_login_():
-#     response = client.post("/login", json={
-#         "grant_type": "",
-#         "username": TEST_USER["username"],
-#         "password": TEST_USER["password"],
-#         "scope": "",
-#         "client_secret": None,
-#         "client_id": None
-#     })
-#
-#     json = response.json()
-#     print(json)
-#     assert json["status"] == "DONE"
-#     assert response.status_code == 200
-#
-#
-# def test_valid_email_login_():
-#     response = client.post("/login", json={
-#         "username": TEST_USER["email"],
-#         "password": TEST_USER["password"]
-#     })
-#
-#     json = response.json()
-#     assert json["status"] == "DONE"
-#     assert response.status_code == 200
-#
-#
-# def test_invalid_username_login():
-#     response = client.post('/login', json={
-#         "username": "invalid_username",
-#         "password": TEST_USER["password"]
-#     })
-#
-#     json = response.json()
-#     assert json["detail"] == "Invalid account"
-#     assert response.status_code == 404
-#
-#
-# def test_invalid_password_login():
-#     response = client.post('/login', json={
-#         "username": TEST_USER["username"],
-#         "password": "invalid_password"
-#     })
-#
-#     json = response.json()
-#     assert json["detail"] == "Invalid password"
-#     assert response.status_code == 404
-#
+def test_valid_email_login_():
+    response = client.post("/login", data={
+        "username": TEST_USER["email"],
+        "password": TEST_USER["password"]
+    })
+
+    json = response.json()
+    assert json["status"] == "DONE"
+    assert response.status_code == 200
+
+
+def test_invalid_username_login():
+    response = client.post('/login', data={
+        "username": "invalid_username",
+        "password": TEST_USER["password"]
+    })
+
+    json = response.json()
+    assert json["detail"] == "Invalid account"
+    assert response.status_code == 404
+
+
+def test_invalid_password_login():
+    response = client.post('/login', data={
+        "username": TEST_USER["username"],
+        "password": "invalid_password"
+    })
+
+    json = response.json()
+    assert json["detail"] == "Invalid password"
+    assert response.status_code == 404
+

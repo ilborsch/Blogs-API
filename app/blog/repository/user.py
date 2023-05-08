@@ -1,6 +1,6 @@
 from fastapi import Depends, status, HTTPException
-from ..models import User
-from ..schemas import User as UserSchema, ShowUser
+from ..models import User, Blog
+from ..schemas import User as UserSchema, ShowUser, BaseBlog, ShowBlog
 from ..database import get_db
 from sqlalchemy.orm import Session
 from ..hashing import Hash
@@ -12,7 +12,7 @@ def get_user_id(user: ShowUser, db: Session) -> int:
 
 
 def check_blog_creator(blog, db: Session, user: ShowUser) -> None:
-    creator = db.query(User).filter(user.username == User.username).first()
+    creator = db.query(User).filter((user.username == User.username) & (user.email == User.email)).first()
     if blog.creator_id != creator.id:
         raise HTTPException(detail=f"Not allowed", status_code=status.HTTP_405_METHOD_NOT_ALLOWED)
 

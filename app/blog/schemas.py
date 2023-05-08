@@ -32,6 +32,7 @@ class ShowUser(ShowCreator):
 
 
 class ShowBlog(BaseBlog):
+    id: int
     creator: ShowCreator
 
 

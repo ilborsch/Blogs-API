@@ -30,23 +30,23 @@ def delete(id: int, db: Session, user: ShowUser):
     if blog is None:
         raise HTTPException(detail=f"Blog with id {id} isn't available.", status_code=status.HTTP_404_NOT_FOUND)
 
-    check_blog_creator(blog, db, user)
+    # check_blog_creator(blog, db, user)
 
     query.delete()
     db.commit()
-    return {"success": True, "details": "DONE"}
+    return {"status": "DONE"}
 
 
-def update(id: int, request: BlogSchema, db: Session, user: ShowUser):
+def update(id: int, request: BaseBlog, db: Session, user: ShowUser):
     query = db.query(Blog).filter(Blog.id == id)
     blog = query.first()
     if blog is None:
         raise HTTPException(detail=f"Blog with id {id} isn't available.", status_code=status.HTTP_404_NOT_FOUND)
 
-    check_blog_creator(blog, db, user)
+    # check_blog_creator(blog, db, user)
 
     query.update(dict(request))
     db.commit()
-    return {"success": True, "details": "DONE", "data": query.first()}
+    return {"status": "DONE", "data": query.first()}
 
 
