@@ -9,7 +9,7 @@ from ..oauth2 import get_current_user
 
 router = APIRouter(
     tags=['Blogs'],
-    prefix='/blog'
+    prefix='/api/blog'
 )
 
 

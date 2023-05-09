@@ -10,7 +10,7 @@ from fastapi_cache.decorator import cache
 
 router = APIRouter(
     tags=['Users'],
-    prefix='/user'
+    prefix='/api/user'
 )
 
 

@@ -7,7 +7,7 @@ from fastapi import status
 
 router = APIRouter(
     tags=['Tasks'],
-    prefix="/task"
+    prefix="/api/task"
 )
 
 
