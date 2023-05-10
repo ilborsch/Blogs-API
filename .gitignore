@@ -120,6 +120,7 @@ celerybeat.pid
 
 # Environments
 .env
+.env-dckr
 .venv
 env/
 venv/
