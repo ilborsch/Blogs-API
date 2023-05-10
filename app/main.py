@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from blog.database import engine, Base
-from blog.routers import blog, user, authentication, tasks
+from app.blog.database import engine, Base
+from app.blog.routers import blog, user, authentication, tasks
 from fastapi.middleware.cors import CORSMiddleware
 from redis import asyncio as aioredis
 from fastapi_cache import FastAPICache

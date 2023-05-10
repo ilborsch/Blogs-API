@@ -1,9 +1,9 @@
 from fastapi import Depends, status, HTTPException
-from ..models import User
-from ..schemas import User as UserSchema, ShowUser
-from ..database import get_db
+from app.blog.models import User
+from app.blog.schemas import User as UserSchema, ShowUser
+from app.blog.database import get_db
 from sqlalchemy.orm import Session
-from ..hashing import Hash
+from app.blog.hashing import Hash
 
 
 def get_user_id(user: ShowUser, db: Session) -> int:

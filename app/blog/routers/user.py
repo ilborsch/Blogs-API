@@ -1,9 +1,9 @@
 from fastapi import Depends, status
 from app.blog.schemas import User as UserSchema, ShowUser
-from ..database import get_db
+from app.blog.database import get_db
 from sqlalchemy.orm import Session
 from fastapi import APIRouter
-from ..repository import user
+from app.blog.repository import user
 from fastapi_cache.decorator import cache
 
 router = APIRouter(
