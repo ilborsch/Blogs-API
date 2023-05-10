@@ -1,10 +1,10 @@
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import os
 
-path_to_dotenv: str = os.path.dirname(os.path.abspath(__file__)) + "\\.env"
-load_dotenv(dotenv_path=path_to_dotenv)
+load_dotenv(find_dotenv(raise_error_if_not_found=True))
 
 SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD")
 SMTP_USER = os.environ.get("SMTP_USER")
 REDIS_HOST = os.environ.get("REDIS_HOST")
+REDIS_PORT = os.environ.get("REDIS_PORT")
 SECRET_JWT_KEY = os.environ.get("SECRET_JWT_KEY")

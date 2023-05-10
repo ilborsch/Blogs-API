@@ -1,10 +1,13 @@
 import smtplib
 from email.message import EmailMessage
+from celery import Celery
 from app.config import SMTP_PASSWORD, SMTP_USER
-
+from app.config import REDIS_HOST, REDIS_PORT
 
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
+
+celery_app = Celery('tasks', broker=f"{REDIS_HOST}:{REDIS_PORT}")
 
 
 def validate_email(email: str):
@@ -20,7 +23,6 @@ def get_valid_email(email: str):
 
 
 def get_email_template_dashboard(username: str, user_email: str):
-    print(username, user_email)
     email = EmailMessage()
     email['Subject'] = 'Blogs UA'
     email['From'] = SMTP_USER
@@ -36,6 +38,7 @@ def get_email_template_dashboard(username: str, user_email: str):
     return email
 
 
+@celery_app.task
 def send_greeting_email_task(username, user_email):
     email = get_email_template_dashboard(username, user_email)
     with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:

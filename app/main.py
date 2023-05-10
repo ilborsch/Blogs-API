@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from redis import asyncio as aioredis
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from config import REDIS_HOST
+from .config import REDIS_HOST, REDIS_PORT
 import uvicorn
 
 
@@ -34,7 +34,7 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def on_startup_event():
-    redis_cache = aioredis.from_url(REDIS_HOST, encoding="utf8", decode_responses=True)
+    redis_cache = aioredis.from_url(f"{REDIS_HOST}:{REDIS_PORT}", encoding="utf8", decode_responses=True)
     FastAPICache.init(RedisBackend(redis_cache), prefix="fastapi-cache")
     print("Blyadina")
 

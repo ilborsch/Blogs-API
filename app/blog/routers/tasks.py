@@ -12,10 +12,10 @@ router = APIRouter(
 
 
 @router.get("/greet")
-async def get_greet_email(background: BackgroundTasks, user: ShowUser = Depends(get_current_user)):
-    background.add_task(send_greeting_email_task, username=user.username, user_email=get_valid_email(user.email))
+async def get_greet_email(user: ShowUser = Depends(get_current_user)):
+    send_greeting_email_task.delay(username=user.username, user_email=get_valid_email(user.email))
     return {
-        "status": status.HTTP_200_OK,
+        "status": "DONE",
         "data": "Email sent",
         "details": None
     }

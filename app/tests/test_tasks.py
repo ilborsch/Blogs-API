@@ -36,4 +36,5 @@ def test_validate_email_random():
         assert tasks.validate_email(email) is True
 
 
+# Add send greeting email test
 

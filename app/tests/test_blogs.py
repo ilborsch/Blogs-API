@@ -114,3 +114,5 @@ def test_authorized_delete_blog(authorized_user):
     assert response.status_code == 200
     assert json['status'] == 'DONE'
 
+
+# test PATCH
