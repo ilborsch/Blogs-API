@@ -107,15 +107,27 @@ Launch the app on ASGI uvicorn web server:
   }
 ```
 
-#### Update the blog
+#### Update the blog (Full)
 
 ```http
   PUT /api/blog/${id}
     -h "Authorization": "Bearer ${your access_token}"
 
   {
-    "title": "string",
-    "body": "string"
+    "title": "string",  # optional, default = ""
+    "body": "string"  # optional, default = ""
+  }
+```
+
+#### Update the blog (Partial)
+
+```http
+  PATCH /api/blog/${id}
+    -h "Authorization": "Bearer ${your access_token}"
+
+  {
+    "title": "string",  # optional
+    "body": "string"  # optional
   }
 ```
 
