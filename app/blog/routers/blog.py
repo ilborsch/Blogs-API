@@ -1,11 +1,10 @@
 from fastapi import Depends, status, APIRouter
 from fastapi_cache.decorator import cache
-from time import sleep
-from ..schemas import Blog as BlogSchema, ShowBlog, ShowUser, BaseBlog
-from ..database import get_db
+from app.blog.schemas import BlogSchema, ShowBlog, ShowUser, BaseBlog
+from app.blog.database import get_db
 from sqlalchemy.orm import Session
-from ..repository import blog
-from ..oauth2 import get_current_user
+from app.blog.repository import blog
+from app.blog.oauth2 import get_current_user
 
 router = APIRouter(
     tags=['Blogs'],
@@ -13,8 +12,8 @@ router = APIRouter(
 )
 
 
-@router.get('/', status_code=status.HTTP_200_OK, response_model=list[BlogSchema])
-# @cache(expire=60)
+@router.get('/', status_code=status.HTTP_200_OK, response_model=list[BaseBlog])
+@cache(expire=60)
 def get_all_blogs(db: Session = Depends(get_db), user: ShowUser = Depends(get_current_user)):
     return blog.get_all(db, user)
 
@@ -36,7 +35,17 @@ def delete_blog(id: int, db: Session = Depends(get_db), user: ShowUser = Depends
 
 
 @router.put('/{id}/', status_code=status.HTTP_202_ACCEPTED)
-def update_blog(id: int, request: BaseBlog, db: Session = Depends(get_db), user: ShowUser = Depends(get_current_user)):
-    return blog.update(id, request, db, user)
+def full_update_blog(id: int, request: BlogSchema,
+                     db: Session = Depends(get_db),
+                     user: ShowUser = Depends(get_current_user)):
+    return blog.full_update(id, request, db, user)
+
+
+@router.patch('/{id}/', status_code=status.HTTP_202_ACCEPTED)
+def partial_update_blog(id: int, request: BlogSchema,
+                        db: Session = Depends(get_db),
+                        user: ShowUser = Depends(get_current_user)):
+    return blog.partial_update(id, request, db, user)
+
 
 

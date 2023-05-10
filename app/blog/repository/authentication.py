@@ -1,10 +1,10 @@
 from fastapi import status, HTTPException
-from ..models import User
+from app.blog.models import User
 from sqlalchemy.orm import Session
-from ..hashing import Hash
-from ..JWT_token import create_access_token
+from app.blog.hashing import Hash
+from app.blog.JWT_token import create_access_token
 from fastapi.security import OAuth2PasswordRequestForm
-from ..schemas import UserRegistrationSchema
+from app.blog.schemas import UserRegistrationSchema
 
 
 def validate_user(request: UserRegistrationSchema, db: Session):

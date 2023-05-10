@@ -134,7 +134,7 @@ Launch the app on ASGI uvicorn web server:
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `int` | **Required**. Id of item to fetch |
 
-#### Create an User object
+#### Create a User object
 
 ```http
   POST /api/user/

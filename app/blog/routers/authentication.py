@@ -1,10 +1,9 @@
-from fastapi import APIRouter, Depends, Form
-from ..database import get_db
+from fastapi import APIRouter, Depends
+from app.blog.database import get_db
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
-from ..repository import authentication
-from ..schemas import UserRegistrationSchema
-from pyfa_converter import PyFaDepends
+from app.blog.repository import authentication
+from app.blog.schemas import UserRegistrationSchema
 
 
 router = APIRouter(

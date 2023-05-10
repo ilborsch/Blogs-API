@@ -1,6 +1,6 @@
 from fastapi import Depends, status, HTTPException
-from ..models import User, Blog
-from ..schemas import User as UserSchema, ShowUser, BaseBlog, ShowBlog
+from ..models import User
+from ..schemas import User as UserSchema, ShowUser
 from ..database import get_db
 from sqlalchemy.orm import Session
 from ..hashing import Hash

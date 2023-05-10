@@ -13,13 +13,13 @@ class User(BaseConfig):
     password: str
 
 
-class BaseBlog(BaseConfig):
-    title: str
-    body: str
+class BlogSchema(BaseConfig):
+    title: Optional[str]
+    body: Optional[str]
 
 
-class Blog(BaseBlog):
-    creator_id: int
+class BaseBlog(BlogSchema):
+    id: int
 
 
 class ShowCreator(BaseConfig):
@@ -28,11 +28,10 @@ class ShowCreator(BaseConfig):
 
 
 class ShowUser(ShowCreator):
-    blogs: List[Blog]
+    blogs: List[BaseBlog]
 
 
 class ShowBlog(BaseBlog):
-    id: int
     creator: ShowCreator
 
 

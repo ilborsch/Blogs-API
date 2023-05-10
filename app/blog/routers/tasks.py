@@ -1,7 +1,7 @@
 from fastapi import APIRouter, BackgroundTasks, Depends
-from ..oauth2 import get_current_user
+from app.blog.oauth2 import get_current_user
 from app.blog.repository.tasks import send_greeting_email_task, get_valid_email
-from ..schemas import ShowUser
+from app.blog.schemas import ShowUser
 from fastapi import status
 
 

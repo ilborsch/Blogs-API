@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from blog.database import engine, Base
 from blog.routers import blog, user, authentication, tasks
-
+from fastapi.middleware.cors import CORSMiddleware
 from redis import asyncio as aioredis
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
@@ -18,6 +18,18 @@ app.include_router(user.router)
 app.include_router(authentication.router)
 app.include_router(tasks.router)
 Base.metadata.create_all(engine)
+
+origins = [
+    "http://localhost:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*']
+)
 
 
 @app.on_event("startup")

@@ -1,6 +1,6 @@
 from fastapi import status, HTTPException
-from ..models import Blog
-from ..schemas import Blog as BlogSchema, ShowUser, BaseBlog
+from app.blog.models import Blog
+from app.blog.schemas import ShowUser, BaseBlog, BlogSchema
 from .user import get_user_id, check_blog_creator
 from sqlalchemy.orm import Session
 
@@ -30,22 +30,41 @@ def delete(id: int, db: Session, user: ShowUser):
     if blog is None:
         raise HTTPException(detail=f"Blog with id {id} isn't available.", status_code=status.HTTP_404_NOT_FOUND)
 
-    # check_blog_creator(blog, db, user)
+    check_blog_creator(blog, db, user)  # comment when test
 
     query.delete()
     db.commit()
     return {"status": "DONE"}
 
 
-def update(id: int, request: BaseBlog, db: Session, user: ShowUser):
+def full_update(id: int, request: BlogSchema, db: Session, user: ShowUser):
     query = db.query(Blog).filter(Blog.id == id)
     blog = query.first()
     if blog is None:
         raise HTTPException(detail=f"Blog with id {id} isn't available.", status_code=status.HTTP_404_NOT_FOUND)
 
-    # check_blog_creator(blog, db, user)
+    check_blog_creator(blog, db, user)  # comment when test
 
-    query.update(dict(request))
+    query.update({
+        "title": request.title if request.title is not None else "",
+        "body": request.body if request.body is not None else ""
+    })
+    db.commit()
+    return {"status": "DONE", "data": query.first()}
+
+
+def partial_update(id: int, request: BlogSchema, db: Session, user: ShowUser):
+    query = db.query(Blog).filter(Blog.id == id)
+    blog = query.first()
+    if blog is None:
+        raise HTTPException(detail=f"Blog with id {id} isn't available.", status_code=status.HTTP_404_NOT_FOUND)
+
+    check_blog_creator(blog, db, user)  # comment when test
+
+    query.update({
+        "title": request.title if request.title is not None else blog.title,
+        "body": request.body if request.body is not None else blog.body
+    })
     db.commit()
     return {"status": "DONE", "data": query.first()}
 
