@@ -56,15 +56,9 @@ to your .env file:
 To run this project in docker container, you will need to create .env-dckr file
 and add the following environment variables to your file:
 
-`SMTP_PASSWORD` - apps password (I use Google)
-
-`SMTP_USER` - app email (I use Gmail)
-
 `REDIS_HOST` - your redis server host (has to be "redis")
 
 `REDIS_PORT` - your redis server port (has to be 6379)
-
-`SECRET_JWT_KEY` - your very secret JWT key
 
 
 
