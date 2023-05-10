@@ -18,35 +18,71 @@ FastAPI REST based project. The project allows you to:
 - Work with background tasks like sending email to the user's email address (which he put in registration form) using Celery + Flower.
 
 
+## Local launch
 
+### Environment Variables
 
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables
+to your .env file:
 
 `SMTP_PASSWORD` - apps password (I use Google)
 
 `SMTP_USER` - app email (I use Gmail)
 
-`REDIS_HOST` - your redis server host
+`REDIS_HOST` - your redis server host (default is localhost)
+
+`REDIS_PORT` - your redis server port (default is 6379)
 
 `SECRET_JWT_KEY` - your very secret JWT key
 
 
 
-## Launch the project
+### Launch the project
 
-Install packets from the requirements.txt
+1. Install packets from the requirements.txt
 
 ```bash
   pip install -r requirements.txt
 ```
-Launch the app on ASGI uvicorn web server:
+2. Launch the app on ASGI uvicorn web server:
 ```bash
   --uvicorn app.main:app --reload
 ```
     
+## Docker container launch
 
+### Environment Variables
+
+To run this project in docker container, you will need to create .env-dckr file
+and add the following environment variables to your file:
+
+`SMTP_PASSWORD` - apps password (I use Google)
+
+`SMTP_USER` - app email (I use Gmail)
+
+`REDIS_HOST` - your redis server host (has to be "redis")
+
+`REDIS_PORT` - your redis server port (has to be 6379)
+
+`SECRET_JWT_KEY` - your very secret JWT key
+
+
+
+### Build Docker container
+
+1. Build your FastAPI app image
+
+```bash
+  docker build . -t fastapi_app:latest   
+```
+2. Build or rebuild services
+```bash
+  docker compose build
+```
+3. Create and start container
+```bash
+  docker compose up
+```
 
 
 ## API Reference
